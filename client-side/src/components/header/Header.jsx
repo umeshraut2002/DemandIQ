@@ -1,106 +1,101 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import "tailwindcss/tailwind.css";
 
-const  Header = () => {
-  const [user, setUser] = useState({ name: "John Doe", role: "Analyst" });
-  const [kpis, setKpis] = useState([]);
-  const [notifications, setNotifications] = useState([]);
-  const [showGuide, setShowGuide] = useState(true);
+const Header = () => {
+  const [isDarkMode, setDarkMode] = useState(false);
 
-  useEffect(() => {
-    // Fetch user-specific data
-    fetchUserDetails();
-    fetchKpis();
-    fetchNotifications();
-  }, []);
-
-  const fetchUserDetails = async () => {
-    // Mock API call to fetch user details
-    setUser({ name: "John Doe", role: "Analyst" });
-  };
-
-  const fetchKpis = async () => {
-    // Mock API call to fetch KPI data
-    setKpis([
-      { title: "Prediction Accuracy", value: "92%", subtitle: "Improved by 5%" },
-      { title: "Inventory Health", value: "Overstock 12%", subtitle: "Stockouts 5%" },
-      { title: "Cost Savings", value: "$10,000", subtitle: "This Month" },
-    ]);
-  };
-
-  const fetchNotifications = async () => {
-    // Mock API call to fetch notifications
-    setNotifications([
-      { id: 1, text: "Product A is nearing stockout.", timestamp: "2 hours ago" },
-      { id: 2, text: "Model retraining completed successfully.", timestamp: "1 day ago" },
-    ]);
+  const toggleTheme = () => {
+    setDarkMode(!isDarkMode);
   };
 
   return (
-    <div className="p-6 space-y-6 bg-gray-100 dark:bg-gray-900">
-      {/* Top Section: Welcome and Quick Actions */}
-      <div className="flex items-center justify-between p-6 bg-white rounded-lg shadow dark:bg-gray-800">
-        <div>
-          <h2 className="text-xl font-semibold dark:text-white">
-            Welcome back, {user.name}! – {user.role}
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Here’s what’s happening today.
-          </p>
-        </div>
-        <div className="flex space-x-4">
-          <Link to="/dashboard" className="btn">📊 Dashboard</Link>
-          <Link to="/upload" className="btn">📁 Upload Data</Link>
-          <Link to="/notifications" className="btn">🔔 Notifications</Link>
-          <Link to="/settings" className="btn">⚙️ Settings</Link>
-        </div>
-      </div>
+    <div className={isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}>
+      {/* Sidebar */}
+      <div className="flex h-screen">
+        <aside className="flex flex-col w-64 text-white bg-blue-900">
+          <div className="p-4 text-lg font-bold">AI Demand Forecast</div>
+          <nav className="flex-grow">
+            <ul>
+              <li className="p-4 hover:bg-blue-700">Home</li>
+              <li className="p-4 hover:bg-blue-700">Dashboard</li>
+              <li className="p-4 hover:bg-blue-700">Upload Data</li>
+              <li className="p-4 hover:bg-blue-700">Notifications</li>
+              <li className="p-4 hover:bg-blue-700">Settings</li>
+            </ul>
+          </nav>
+          <button className="p-2 m-4 bg-purple-600 rounded hover:bg-purple-700">Upgrade Plan</button>
+          <button className="p-2 m-4 bg-red-600 rounded hover:bg-red-700">Logout</button>
+        </aside>
 
-      {/* Middle Section: Snapshot KPIs */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        {kpis.map((kpi, index) => (
-          <div key={index} className="p-4 bg-white rounded-lg shadow dark:bg-gray-800">
-            <h3 className="text-lg font-medium dark:text-white">{kpi.title}</h3>
-            <p className="text-2xl font-bold text-green-600">{kpi.value}</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">{kpi.subtitle}</p>
+        {/* Main Content */}
+        <main className="flex-grow p-6">
+          <header className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl font-bold">AI Demand Forecast</h1>
+            <div className="flex items-center space-x-4">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="p-2 border border-gray-300 rounded"
+              />
+              <button
+                onClick={toggleTheme}
+                className="p-2 bg-gray-200 rounded dark:bg-gray-700"
+              >
+                {isDarkMode ? "Light Mode" : "Dark Mode"}
+              </button>
+            </div>
+          </header>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {/* KPI Cards */}
+            <div className="p-4 bg-white rounded shadow dark:bg-gray-800">
+              <h2 className="text-lg font-bold">Prediction Accuracy</h2>
+              <p className="text-2xl">92%</p>
+              <span className="text-green-500">Improved by 5% this week</span>
+            </div>
+            <div className="p-4 bg-white rounded shadow dark:bg-gray-800">
+              <h2 className="text-lg font-bold">Inventory Health</h2>
+              <p className="text-2xl">88%</p>
+              <span className="text-red-500">12% overstock rate</span>
+            </div>
+            <div className="p-4 bg-white rounded shadow dark:bg-gray-800">
+              <h2 className="text-lg font-bold">Cost Savings</h2>
+              <p className="text-2xl">$10,243</p>
+              <span className="text-green-500">Last 30 days</span>
+            </div>
           </div>
-        ))}
-      </div>
 
-      {/* Bottom Section: Notifications and Getting Started Guide */}
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* Recent Notifications */}
-        <div className="p-4 bg-white rounded-lg shadow dark:bg-gray-800">
-          <h3 className="text-lg font-semibold dark:text-white">Recent Notifications</h3>
-          <ul className="space-y-2">
-            {notifications.map((notification) => (
-              <li key={notification.id} className="text-sm text-gray-700 dark:text-gray-300">
-                <span>{notification.text}</span>
-                <span className="block text-xs text-gray-500 dark:text-gray-400">
-                  {notification.timestamp}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div className="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2">
+            {/* High-Demand Products */}
+            <div className="p-4 bg-white rounded shadow dark:bg-gray-800">
+              <h2 className="text-lg font-bold">High-Demand Products</h2>
+              <ul className="pl-5 list-disc">
+                <li>Product A - 120 units/day</li>
+                <li>Product B - 95 units/day</li>
+                <li>Product C - 80 units/day</li>
+              </ul>
+            </div>
 
-        {/* Getting Started Guide */}
-        {showGuide && (
-          <div className="p-4 bg-white rounded-lg shadow dark:bg-gray-800">
-            <h3 className="text-lg font-semibold dark:text-white">Getting Started Guide</h3>
-            <ol className="ml-6 space-y-2 text-gray-700 list-decimal dark:text-gray-300">
-              <li>Upload historical data from the Upload Data page.</li>
-              <li>Review the dashboard for key insights.</li>
-              <li>Configure AI models in the Settings page.</li>
+            {/* Loss-Making Stock */}
+            <div className="p-4 bg-white rounded shadow dark:bg-gray-800">
+              <h2 className="text-lg font-bold">Loss-Making Stock</h2>
+              <ul className="pl-5 list-disc">
+                <li>Product X - Loss $500</li>
+                <li>Product Y - Loss $300</li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Getting Started Guide */}
+          <div className="p-4 mt-6 bg-white rounded shadow dark:bg-gray-800">
+            <h2 className="text-lg font-bold">Getting Started Guide</h2>
+            <ol className="pl-5 list-decimal">
+              <li>Upload historical data</li>
+              <li>Review the dashboard</li>
+              <li>Download the report</li>
             </ol>
-            <button
-              className="mt-4 text-sm text-blue-500 dark:text-blue-400"
-              onClick={() => setShowGuide(false)}
-            >
-              Dismiss Guide
-            </button>
           </div>
-        )}
+        </main>
       </div>
     </div>
   );
@@ -108,4 +103,3 @@ const  Header = () => {
 
 export default Header;
 
-der
