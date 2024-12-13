@@ -6,6 +6,7 @@ import Settings from './components/settings/Settings';
 import Notification from './components/notification/Notification';
 import NotificationSetting from './components/settings/NotificationSetting';
 import Profile from './components/profile/Profile';
+import Plan from './components/upgradeplan/PLan';
 
 function App() {
 
@@ -19,7 +20,8 @@ function App() {
      {/* <Notification /> */}
      {/* <NotificationSetting /> */}
 
-     <Profile />
+     {/* <Profile /> */}
+     <Plan />
     </>
   )
 }
