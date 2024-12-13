@@ -3,6 +3,9 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Header from './components/header/Header'
 import ReportPreview from './components/reports/ReportPreview';
 import Settings from './components/settings/Settings';
+import Notification from './components/notification/Notification';
+import NotificationSetting from './components/settings/NotificationSetting';
+import Profile from './components/profile/Profile';
 
 function App() {
 
@@ -12,7 +15,11 @@ function App() {
      {/* <Dashboard /> */}
      {/* <ReportPreview /> */}
 
-     <Settings />
+     {/* <Settings /> */}
+     {/* <Notification /> */}
+     {/* <NotificationSetting /> */}
+
+     <Profile />
     </>
   )
 }
